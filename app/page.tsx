@@ -169,6 +169,7 @@ export default function Home() {
 
       setSummary(summaryText || "");
     } catch (error) {
+      console.error(error);
       setError("An error occurred while fetching matches. Please try again.");
     }
   };
