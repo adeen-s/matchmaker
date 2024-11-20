@@ -3,17 +3,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCompletion } from "ai/react";
 import { Loader2 } from "lucide-react";
 import { FileText } from "lucide-react";
-import { BIO_TEMPLATE } from "@/lib/constants/bioTemplate";
+// import { BIO_TEMPLATE } from "@/lib/constants/bioTemplate";
 
 const TEMPLATE_QUESTIONS = [
   "What's your story? location, background, key career moments",
@@ -114,6 +108,9 @@ export default function Home() {
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log(matches);
+    console.log(summary);
+    console.log(error);
     e.preventDefault();
     setError(null);
     setMatches([]);
