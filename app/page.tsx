@@ -111,6 +111,7 @@ export default function Home() {
     console.log(matches);
     console.log(summary);
     console.log(error);
+    console.log("CALLED");
     e.preventDefault();
     setError(null);
     setMatches([]);
