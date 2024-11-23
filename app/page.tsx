@@ -33,7 +33,8 @@ export default function Home() {
 
   const { isLoading, complete } = useCompletion({
     api: '/api/matches',
-    onFinish: (completion) => {
+    onResponse: async (response) => {
+      const completion = (await response.text()).replace("&", "and");
       try {
         console.log('Raw AI Response:', completion)
 
@@ -110,62 +111,8 @@ export default function Home() {
     setSummary('')
 
     try {
-      const completion = await complete({ bio, matchingContext })
+      await complete({ bio, matchingContext })
 
-      if (!completion) {
-        throw new Error('No completion received')
-      }
-
-      const parser = new DOMParser()
-      const xmlDoc = parser.parseFromString(completion, 'text/xml')
-
-      // Check for parsing errors
-      const parserError = xmlDoc.querySelector('parsererror')
-      if (parserError) {
-        throw new Error('Failed to parse XML response')
-      }
-
-      // Parse matches
-      const matchesData = Array.from({ length: 3 }, (_, i) => {
-        const matchNum = i + 1
-        const matchElement = xmlDoc.querySelector(`match${matchNum}`)
-
-        if (!matchElement) {
-          return null
-        }
-
-        const name = matchElement.querySelector('name')?.textContent
-        const reason = matchElement.querySelector('reason')?.textContent
-
-        if (!name || !reason) {
-          return null
-        }
-
-        return { name, reason }
-      }).filter((match): match is Match => match !== null)
-
-      // Verify we got matches
-      if (matchesData.length === 0) {
-        throw new Error('No valid matches found in response')
-      }
-
-      setMatches(matchesData)
-
-      // Parse summary
-      const summaryElement = xmlDoc.querySelector('summary')
-      const summaryText = summaryElement?.textContent?.trim()
-
-      if (!summaryText) {
-        console.warn('Summary not found or empty')
-      }
-
-      setSummary(summaryText || '')
-
-      // Optional: Parse matching analysis for additional context
-      const analysisElement = xmlDoc.querySelector('matching_analysis')
-      if (analysisElement) {
-        console.log('Matching Analysis:', analysisElement.textContent)
-      }
     } catch (error) {
       console.error('Submission Error:', error)
       setError('An error occurred while fetching matches. Please try again.')
