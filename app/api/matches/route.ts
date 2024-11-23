@@ -59,6 +59,7 @@ export async function POST(req: Request) {
 
     console.log("Response:", response);
 
+    //@ts-expect-error: TS doesn't know that content is an array
     return new Response(response.content[0].text, {
       headers: {
         "Content-Type": "text/plain",
