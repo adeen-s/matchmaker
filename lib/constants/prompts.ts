@@ -6,17 +6,7 @@ First, carefully read through the following community member bios:
 {{COMMUNITY_BIOS}}
 </community_bios>
 
-Now, read the bio of the new community member:
-
-<new_member_bio>
-{{NEW_MEMBER_BIO}}
-</new_member_bio>
-
-Optional: If provided, consider the specific matching context for this new member:
-
-<matching_context>
-{{MATCHING_CONTEXT}}
-</matching_context>
+You will be provided with the bio of the new member, and optionally if provided, also consider the specific matching context for this new member.
 
 Your task is to analyze these bios and identify 3 existing community members who would be good matches for the new member. Consider the following factors:
 
@@ -33,8 +23,10 @@ Before providing your final recommendations, wrap your analysis inside <matching
 3. Evaluate each existing member against these criteria, noting potential synergies or complementary factors.
 4. Consider how the specific matching context (if provided) influences your choices.
 
-After your analysis, provide your recommendations in the following format:
+After your analysis, provide your recommendations in the following format and return only a valid xml without any other text:
 
+<root>
+<matching_analysis> [Your analysis here] </matching_analysis>
 <matches>
 <match1>
 <name>[Name of the first recommended match]</name>
@@ -55,6 +47,7 @@ After your analysis, provide your recommendations in the following format:
 <summary>
 Provide a brief summary (2-3 sentences) explaining the overall rationale for these matches and how they could benefit the new community member. If a specific matching context was provided, address how your recommendations align with that context.
 </summary>
+</root>
 
 Remember to focus on creating meaningful connections that could lead to potential collaborations, mentorship opportunities, or valuable exchanges of ideas within the South Park Commons community.
 `
@@ -79,6 +72,6 @@ export function generateMatchingPrompt({
     .replace('{{NEW_MEMBER_BIO}}', newMemberBio)
     .replace('{{MATCHING_CONTEXT}}', matchingContext)
 
-  console.log('Generated matching prompt:', matchingPrompt)
+  // console.log('Generated matching prompt:', matchingPrompt)
   return matchingPrompt
 }
